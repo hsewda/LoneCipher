@@ -193,56 +193,6 @@
   /* SCATTER PLOT */
   .scatterDot { position: absolute; width: 8px; height: 8px; border-radius: 50%; transform: translate(-50%,-50%); cursor: pointer; }
   .scatterDot:hover::after { content: attr(title); position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-size: 11px; white-space: nowrap; z-index: 100; }
-
-  /* WATCHLISTS */
-  .wlTabBar { display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center; }
-  .wlTab { padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px; }
-  .wlTab:hover { border-color:var(--accent);color:var(--accent); }
-  .wlTab.active { border-color:var(--accent);color:var(--accent);background:rgba(240,180,41,0.12); }
-  .wlTab.bear { border-color:var(--green);color:var(--green); }
-  .wlTab.bear.active { background:rgba(62,207,142,0.12); }
-  .wlCount { background:var(--bg2);border-radius:8px;padding:1px 6px;font-size:11px; }
-  .wlCard { background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap; }
-  .wlCard:hover { border-color:var(--accent); }
-  .wlSym { font-size:16px;font-weight:800;color:var(--accent);cursor:pointer; }
-  .wlSym:hover { text-decoration:underline; }
-  .wlName { font-size:11px;color:var(--muted);margin-top:2px; }
-  .wlMeta { display:flex;gap:6px;flex-wrap:wrap;margin-top:6px; }
-  .wlChip { background:var(--bg2);border-radius:6px;padding:3px 8px;font-size:12px; }
-  .wlActions { display:flex;gap:4px;margin-left:auto;align-items:center; }
-  .wlBearRun { background:rgba(62,207,142,0.15);color:var(--green);border-radius:12px;padding:2px 8px;font-size:10px;font-weight:700; }
-  .wlEmpty { padding:32px;text-align:center;color:var(--muted);font-size:13px; }
-  .wlContent { display:none;flex-direction:column;gap:10px; }
-  .wlContent.active { display:flex; }
-  .wlAddBox { background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px; }
-  .wlAddRow { display:flex;gap:8px;flex-wrap:wrap;align-items:center; }
-  .wlAddRow input { flex:1;min-width:160px;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:13px;outline:none; }
-  .wlAddRow input:focus { border-color:var(--accent); }
-  /* FUNDAMENTALS */
-  .fundSection { background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px; }
-  .fundSectionTitle { font-size:12px;font-weight:700;text-transform:uppercase;color:var(--accent);letter-spacing:0.5px;margin-bottom:12px; }
-  .fundGrid { display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px; }
-  .fundItem { background:var(--bg3);border-radius:8px;padding:8px 12px; }
-  .fundItem .fl { font-size:10px;color:var(--muted);text-transform:uppercase; }
-  .fundItem .fv { font-size:15px;font-weight:700;margin-top:2px; }
-  .holderBar { height:10px;border-radius:5px;display:flex;overflow:hidden;margin:8px 0 6px; }
-  .hb-pro { background:var(--gold); }
-  .hb-fii { background:var(--blue); }
-  .hb-dii { background:var(--green); }
-  .hb-ret { background:var(--muted); }
-  .holderLegend { display:flex;gap:14px;flex-wrap:wrap; }
-  .hlItem { display:flex;align-items:center;gap:5px;font-size:12px; }
-  .hlDot { width:8px;height:8px;border-radius:2px;flex-shrink:0; }
-  .qtrTbl { width:100%;border-collapse:collapse;font-size:12px; }
-  .qtrTbl th { padding:7px 10px;background:var(--bg3);color:var(--muted);font-size:10px;text-transform:uppercase;text-align:right; }
-  .qtrTbl th:first-child { text-align:left; }
-  .qtrTbl td { padding:7px 10px;border-bottom:1px solid rgba(42,47,62,0.4);text-align:right; }
-  .qtrTbl td:first-child { text-align:left;color:var(--muted); }
-  /* REFRESH BTN */
-  .refreshBtn { padding:8px 16px;background:rgba(62,207,142,0.1);color:var(--green);border:1px solid var(--green);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px; }
-  .refreshBtn:hover { background:rgba(62,207,142,0.2); }
-  @keyframes spin { to { transform:rotate(360deg); } }
-  .spinning { animation:spin 1s linear infinite; }
   /* TOAST */
   #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 12px 24px; font-size: 14px; color: var(--text); z-index: 9999; opacity: 0; transition: all 0.3s; pointer-events: none; }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -267,9 +217,7 @@
 <div id="app">
   <div class="topbar">
     <div class="logo">SwingDesk</div>
-    <button class="navBtn active" onclick="showTab('watchlist',this)">📋 Stock List</button>
-    <button class="navBtn" onclick="showTab('smartwl',this)">⭐ My Watchlists</button>
-    <button class="navBtn" onclick="showTab('fundamentals',this)">🔬 Fundamentals</button>
+    <button class="navBtn active" onclick="showTab('watchlist',this)">📋 Watchlist</button>
     <button class="navBtn" onclick="showTab('sectors',this)">🏭 Sectors</button>
     <button class="navBtn" onclick="showTab('journal',this)">📒 Journal</button>
     <button class="navBtn" onclick="showTab('stats',this)">📊 Stats</button>
@@ -351,121 +299,6 @@
       <span style="font-size:13px;color:var(--muted)">Auto-updates when you import Screener data</span>
     </div>
     <div id="sectorContent"><div class="noDataMsg"><h3>No Screener data yet</h3><p style="margin-top:8px">Import stocks from Screener to see sector analysis</p></div></div>
-  </div>
-
-  <!-- SMART WATCHLISTS -->
-  <div class="panel" id="tab-smartwl">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:10px">
-      <h2 style="font-size:20px">⭐ My Watchlists</h2>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="refreshBtn" onclick="refreshAllWL()">
-          <span id="refreshSpinner">↻</span> Refresh Screener Data
-        </button>
-        <button class="btnSecondary" onclick="exportWLCSV()">⬇ Export CSV</button>
-      </div>
-    </div>
-    <p style="color:var(--muted);font-size:12px;margin-bottom:16px">
-      Three purpose-built watchlists for your trading workflow. Click <strong style="color:var(--accent)">Refresh</strong> to pull latest data from Screener for watchlist stocks.
-      Use <strong>📅 / 🐂</strong> buttons in the Stock List to add stocks instantly.
-    </p>
-
-    <!-- WL Tab Bar -->
-    <div class="wlTabBar">
-      <button class="wlTab active" onclick="switchWL(this,'tomorrow')">📅 Next Day <span class="wlCount" id="wlb-tomorrow">0</span></button>
-      <button class="wlTab" onclick="switchWL(this,'nextmonth')">📆 Next Month <span class="wlCount" id="wlb-nextmonth">0</span></button>
-      <button class="wlTab bear" onclick="switchWL(this,'bear')">🐂 Bear→Bull Gems <span class="wlCount" id="wlb-bear">0</span></button>
-    </div>
-
-    <!-- Tomorrow WL -->
-    <div class="wlContent active" id="wlc-tomorrow">
-      <div style="background:rgba(240,180,41,0.06);border:1px solid rgba(240,180,41,0.2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);margin-bottom:12px">
-        📅 <strong style="color:var(--text)">Next Day Watchlist</strong> — Stocks to trade or closely watch tomorrow. Review setups tonight, execute at market open.
-      </div>
-      <div class="wlAddBox">
-        <div class="wlAddRow">
-          <input type="text" id="wl-add-tomorrow" list="wlAC-tomorrow" placeholder="Symbol (e.g. RELIANCE)..." onkeydown="if(event.key===&quot;Enter&quot;)addToWL('tomorrow')" />
-          <datalist id="wlAC-tomorrow"></datalist>
-          <input type="text" id="wl-note-tomorrow" placeholder="Why watching? Setup? (optional)" />
-          <select id="wl-trigger-tomorrow" style="padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:12px;outline:none">
-            <option value="">Trigger type...</option>
-            <option value="📈 Breakout">📈 Breakout</option>
-            <option value="🔄 Retest">🔄 Retest</option>
-            <option value="💹 Support bounce">💹 Support bounce</option>
-            <option value="📉 Reversal">📉 Reversal</option>
-            <option value="🎯 Momentum">🎯 Momentum</option>
-          </select>
-          <button class="btnPrimary" onclick="addToWL('tomorrow')">+ Add</button>
-        </div>
-      </div>
-      <div id="wl-list-tomorrow"><div class="wlEmpty">No stocks yet. Add from above or tap 📅 in Stock List.</div></div>
-    </div>
-
-    <!-- Next Month WL -->
-    <div class="wlContent" id="wlc-nextmonth">
-      <div style="background:rgba(94,141,245,0.06);border:1px solid rgba(94,141,245,0.2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);margin-bottom:12px">
-        📆 <strong style="color:var(--text)">Next Month Watchlist</strong> — Medium-term swings and positional trades. 2–8 week horizon. Watch for catalyst.
-      </div>
-      <div class="wlAddBox">
-        <div class="wlAddRow">
-          <input type="text" id="wl-add-nextmonth" list="wlAC-nextmonth" placeholder="Symbol..." onkeydown="if(event.key===&quot;Enter&quot;)addToWL('nextmonth')" />
-          <datalist id="wlAC-nextmonth"></datalist>
-          <input type="text" id="wl-note-nextmonth" placeholder="Thesis / catalysts (optional)" />
-          <button class="btnPrimary" onclick="addToWL('nextmonth')">+ Add</button>
-        </div>
-      </div>
-      <div id="wl-list-nextmonth"><div class="wlEmpty">No stocks yet.</div></div>
-    </div>
-
-    <!-- Bear→Bull Gems WL -->
-    <div class="wlContent" id="wlc-bear">
-      <div style="background:rgba(62,207,142,0.06);border:1px solid rgba(62,207,142,0.2);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);margin-bottom:12px">
-        🐂 <strong style="color:var(--green)">Bear→Bull Gems</strong> — Stocks holding up or performing well even in a weak/bear market. These are the FIRST to run when the bull market returns. Keep a very special eye on them — accumulate quietly during dips. They often give 2x–5x returns in bull phases.
-      </div>
-      <div class="wlAddBox">
-        <div class="wlAddRow">
-          <input type="text" id="wl-add-bear" list="wlAC-bear" placeholder="Symbol..." onkeydown="if(event.key===&quot;Enter&quot;)addToWL('bear')" />
-          <datalist id="wlAC-bear"></datalist>
-          <input type="text" id="wl-note-bear" placeholder="Why it's a Bear Gem? (optional)" />
-          <button class="btnPrimary" onclick="addToWL('bear')" style="background:var(--green);color:#000">+ Add Gem</button>
-        </div>
-      </div>
-      <div id="wl-list-bear"><div class="wlEmpty">No gems yet. Add stocks that are strong in weak markets.</div></div>
-    </div>
-  </div>
-
-  <!-- FUNDAMENTALS -->
-  <div class="panel" id="tab-fundamentals">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:10px">
-      <h2 style="font-size:20px">🔬 Fundamentals Hub</h2>
-    </div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Deep-dive on any stock: Shareholding, Quarterly P&L, Key Ratios, YoY growth, and Earnings Calendar links.</p>
-
-    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
-      <input type="text" id="fundSearch" list="fundAC" placeholder="Type stock symbol to analyse (e.g. TCS, RELIANCE)..."
-        style="flex:1;max-width:380px;padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none"
-        onkeydown="if(event.key===&quot;Enter&quot;)showFundamentals()" />
-      <datalist id="fundAC"></datalist>
-      <button class="btnPrimary" onclick="showFundamentals()">🔍 Analyse</button>
-      <a id="fundScLink" href="#" target="_blank" style="display:none;padding:9px 16px;background:rgba(62,207,142,0.1);color:var(--green);border:1px solid var(--green);border-radius:8px;font-size:13px;font-weight:600;text-decoration:none">📊 Open Screener</a>
-      <a id="fundNseLink" href="#" target="_blank" style="display:none;padding:9px 16px;background:rgba(248,113,113,0.1);color:var(--red);border:1px solid var(--red);border-radius:8px;font-size:13px;font-weight:600;text-decoration:none">🏛 Open NSE</a>
-    </div>
-
-    <div id="fundContent">
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:48px;text-align:center;color:var(--muted)">
-        <div style="font-size:48px;margin-bottom:12px">🔬</div>
-        <h3 style="color:var(--text);margin-bottom:8px;font-size:18px">Select a Stock to Analyse</h3>
-        <p style="font-size:13px;max-width:500px;margin:0 auto;line-height:1.8">
-          Type any symbol above. This hub shows all available fundamental data including:<br>
-          <strong style="color:var(--text)">👥 Shareholding</strong> (Promoter/FII/DII/Retail) ·
-          <strong style="color:var(--text)">📊 Quarterly Results</strong> ·
-          <strong style="color:var(--text)">📐 Key Ratios</strong> (P/E, ROCE, Div Yld, 52W range) ·
-          <strong style="color:var(--text)">📅 Earnings Calendar</strong> (NSE links)
-        </p>
-        <p style="font-size:12px;margin-top:12px;color:var(--accent)">
-          ⚡ Import more stocks via Screener paste to enrich the data here.
-        </p>
-      </div>
-    </div>
   </div>
 
   <!-- JOURNAL -->
@@ -601,18 +434,6 @@
       <a id="m_tv" class="linkBtn tv" target="_blank">📈 TradingView</a>
       <a id="m_sc" class="linkBtn sc" target="_blank">📊 Screener</a>
       <a id="m_kite" class="linkBtn kite" target="_blank">⚡ Kite</a>
-      <a id="m_nse" class="linkBtn" target="_blank" style="background:rgba(248,113,113,0.1);border-color:var(--red);color:var(--red)">🏛 NSE</a>
-    </div>
-    <div style="margin-bottom:14px">
-      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Quick Add to Watchlist</div>
-      <div id="m_wl_btns" style="display:flex;gap:6px;flex-wrap:wrap"></div>
-    </div>
-    <div style="margin-bottom:14px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">📅 Earnings Calendar</div>
-        <a id="m_earnings_nse" href="#" target="_blank" style="font-size:11px;color:var(--blue)">View on NSE →</a>
-      </div>
-      <div id="m_earnings_content" style="font-size:12px;color:var(--muted)">Open NSE link for earnings dates.</div>
     </div>
     <div class="sectionLabel">📝 My Notes</div>
     <textarea class="noteArea" id="m_note" placeholder="Your notes about this stock..."></textarea>
@@ -1338,24 +1159,6 @@ let sortCol = 'sector';
 let sortAsc = true;
 let activeModal = null;
 
-// Watchlist state
-let watchlists = { tomorrow: [], nextmonth: [], bear: [] };
-let activeWL = 'tomorrow';
-
-function loadWatchlists() {
-  try {
-    const w = localStorage.getItem('swingdesk_wl');
-    if (w) {
-      const parsed = JSON.parse(w);
-      watchlists = { tomorrow: [], nextmonth: [], bear: [], ...parsed };
-    }
-  } catch(e) {}
-}
-
-function saveWatchlists() {
-  try { localStorage.setItem('swingdesk_wl', JSON.stringify(watchlists)); } catch(e) {}
-}
-
 function loadState() {
   try {
     const s = localStorage.getItem('swingdesk_stocks');
@@ -1363,7 +1166,6 @@ function loadState() {
     if (s) stocks = JSON.parse(s);
     if (j) journal = JSON.parse(j);
   } catch(e) {}
-  loadWatchlists();
 }
 
 function saveState() {
@@ -1416,7 +1218,6 @@ function doLogin() {
     renderTable();
     renderJournal();
     renderStats();
-    updateWLBadges();
   } else {
     document.getElementById('loginError').textContent = 'Wrong password. Try trade2024';
   }
@@ -1434,8 +1235,6 @@ function showTab(name, btn) {
   if (name === 'sectors') renderSectors();
   if (name === 'stats') renderStats();
   if (name === 'journal') renderJournal();
-  if (name === 'smartwl') renderAllWatchlists();
-  if (name === 'fundamentals') initFundamentals();
 }
 
 // ═══════════════════════════════════════════════════
@@ -1700,11 +1499,8 @@ function renderTable() {
       <td ${h('profitvar')}>${colorVal(s.profitVar)}</td>
       <td ${h('divyld')}>${fmt(s.divYld, 2)}</td>
       <td ${h('salesvar')}>${colorVal(s.salesVar)}</td>
-      <td>
-        <button class="iconBtn" title="View details" onclick="openModal('${s.sym}')">📋</button>
-        <button class="iconBtn" title="Add to Tomorrow" onclick="qAdd(event,'${s.sym}','tomorrow')">📅</button>
-        <button class="iconBtn" title="Add to Bear Gems" onclick="qAdd(event,'${s.sym}','bear')" style="color:var(--green)">🐂</button>
-      </td>
+      <td><button class="iconBtn" onclick="openModal('${s.sym}')">📝</button></td>
+      <td><button class="iconBtn" onclick="openModal('${s.sym}')">🔍</button></td>
     </tr>`;
   }).join('');
 }
@@ -1739,23 +1535,9 @@ function openModal(sym) {
   const tv = `https://www.tradingview.com/chart/?symbol=NSE:${s.sym}`;
   const sc = `https://www.screener.in/company/${s.sym}/`;
   const kite = `https://kite.zerodha.com/chart/web/tvc/NSE/${s.sym}EQ/${s.sym}`;
-  const nse = `https://www.nseindia.com/get-quotes/equity?symbol=${s.sym}`;
-  const nseEarnings = `https://www.nseindia.com/companies-listing/corporate-filings-financial-results?category=equities&symbol=${s.sym}`;
   document.getElementById('m_tv').href = tv;
   document.getElementById('m_sc').href = sc;
   document.getElementById('m_kite').href = kite;
-  document.getElementById('m_nse').href = nse;
-  document.getElementById('m_earnings_nse').href = nseEarnings;
-  document.getElementById('m_earnings_content').innerHTML = `<a href="${nseEarnings}" target="_blank" style="color:var(--blue)">Board Meetings & Results on NSE</a> · <a href="https://www.screener.in/company/${s.sym}/quarterly/" target="_blank" style="color:var(--green)">Quarterly data on Screener</a>`;
-
-  // Watchlist quick-add buttons
-  const wlDefs = { tomorrow: {l:'📅 Tomorrow', c:'var(--accent)'}, nextmonth: {l:'📆 Next Month', c:'var(--blue)'}, bear: {l:'🐂 Bear Gem', c:'var(--green)'} };
-  document.getElementById('m_wl_btns').innerHTML = Object.entries(wlDefs).map(([id, def]) => {
-    const inList = (watchlists[id]||[]).some(x=>x.sym===sym);
-    return `<button onclick="modalAddWL('${sym}','${id}')" style="padding:5px 12px;border-radius:6px;border:1px solid ${inList?def.c:'var(--border)'};color:${inList?def.c:'var(--muted)'};background:${inList?'rgba(62,207,142,0.05)':'var(--bg3)'};font-size:11px;font-weight:600;cursor:pointer">
-      ${inList ? '✓ ' : '+ '}${def.l}
-    </button>`;
-  }).join('');
 
   document.getElementById('stockModal').classList.add('open');
 }
@@ -2560,331 +2342,6 @@ function fmtRs(v) {
   if (abs >= 100000) return '₹' + (abs/100000).toFixed(2) + ' L';
   if (abs >= 1000) return '₹' + (abs/1000).toFixed(1) + 'K';
   return '₹' + abs.toFixed(0);
-}
-
-
-// ═══════════════════════════════════════════════════
-// SMART WATCHLISTS
-// ═══════════════════════════════════════════════════
-function getWLLabel(id) {
-  const map = { tomorrow: '📅 Next Day', nextmonth: '📆 Next Month', bear: '🐂 Bear Gem' };
-  return map[id] || id;
-}
-
-function updateWLBadges() {
-  ['tomorrow','nextmonth','bear'].forEach(id => {
-    const el = document.getElementById('wlb-' + id);
-    if (el) el.textContent = (watchlists[id]||[]).length;
-  });
-}
-
-function switchWL(btn, id) {
-  activeWL = id;
-  document.querySelectorAll('.wlTab').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  document.querySelectorAll('.wlContent').forEach(c => c.classList.remove('active'));
-  const el = document.getElementById('wlc-' + id);
-  if (el) el.classList.add('active');
-}
-
-function addToWL(wlId) {
-  const inp = document.getElementById('wl-add-' + wlId);
-  if (!inp) return;
-  const raw = inp.value.trim().toUpperCase().replace(/[^A-Z0-9&.-]/g,'');
-  if (!raw) { toast('Enter a symbol', 'err'); return; }
-  if (!watchlists[wlId]) watchlists[wlId] = [];
-  if (watchlists[wlId].find(x => x.sym === raw)) { toast(raw + ' already in list', 'err'); return; }
-
-  const note = (document.getElementById('wl-note-' + wlId)||{}).value||'';
-  const trigger = (document.getElementById('wl-trigger-' + wlId)||{}).value||'';
-
-  watchlists[wlId].push({
-    sym: raw, note, trigger,
-    addedAt: new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'2-digit'})
-  });
-
-  inp.value = '';
-  const ni = document.getElementById('wl-note-' + wlId); if(ni) ni.value='';
-  const ti = document.getElementById('wl-trigger-' + wlId); if(ti) ti.value='';
-
-  saveWatchlists();
-  renderWLList(wlId);
-  updateWLBadges();
-  toast(`${raw} → ${getWLLabel(wlId)}`, 'ok');
-}
-
-function qAdd(e, sym, wlId) {
-  e.stopPropagation();
-  if (!watchlists[wlId]) watchlists[wlId] = [];
-  if (watchlists[wlId].find(x=>x.sym===sym)) {
-    toast(`${sym} already in ${getWLLabel(wlId)}`, 'err'); return;
-  }
-  watchlists[wlId].push({ sym, note:'', trigger:'', addedAt: new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'}) });
-  saveWatchlists();
-  updateWLBadges();
-  toast(`✓ ${sym} → ${getWLLabel(wlId)}`, 'ok');
-}
-
-function modalAddWL(sym, wlId) {
-  if (!watchlists[wlId]) watchlists[wlId] = [];
-  const existing = watchlists[wlId].find(x=>x.sym===sym);
-  if (existing) {
-    watchlists[wlId] = watchlists[wlId].filter(x=>x.sym!==sym);
-    saveWatchlists();
-    openModal(sym);
-    updateWLBadges();
-    toast(`${sym} removed from ${getWLLabel(wlId)}`, '');
-  } else {
-    watchlists[wlId].push({ sym, note:'', trigger:'', addedAt: new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'}) });
-    saveWatchlists();
-    openModal(sym);
-    updateWLBadges();
-    toast(`✓ ${sym} → ${getWLLabel(wlId)}`, 'ok');
-  }
-  renderWLList(wlId);
-}
-
-function removeFromWL(wlId, sym) {
-  watchlists[wlId] = (watchlists[wlId]||[]).filter(x=>x.sym!==sym);
-  saveWatchlists();
-  renderWLList(wlId);
-  updateWLBadges();
-  toast(`${sym} removed`, '');
-}
-
-function renderWLList(wlId) {
-  const el = document.getElementById('wl-list-' + wlId);
-  if (!el) return;
-  const items = watchlists[wlId] || [];
-  if (items.length === 0) {
-    const msgs = { tomorrow: 'No stocks yet. Add symbols above or use 📅 in Stock List.', nextmonth: 'No stocks yet.', bear: 'No Bear Gems yet. Add stocks that are holding up in weak markets.' };
-    el.innerHTML = `<div class="wlEmpty">${msgs[wlId]||'No stocks yet.'}</div>`;
-    return;
-  }
-  el.innerHTML = items.map(item => {
-    const s = stocks.find(x=>x.sym===item.sym)||{};
-    const cmp = s.cmp ? `₹${s.cmp.toFixed(2)}` : '–';
-    const ret3m = s.ret3m !== null && s.ret3m !== undefined ? `<span class="${s.ret3m>=0?'pos':'neg'}">${s.ret3m>=0?'+':''}${s.ret3m.toFixed(1)}%</span>` : null;
-    const bearTag = wlId==='bear' ? `<span class="wlBearRun">🚀 Bull Run Candidate</span>` : '';
-    const triggerTag = item.trigger ? `<span style="background:rgba(94,141,245,0.12);color:var(--blue);border-radius:4px;padding:2px 8px;font-size:11px">${item.trigger}</span>` : '';
-    return `<div class="wlCard">
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span class="wlSym" onclick="openModal('${item.sym}')">${item.sym}</span>
-          <span style="font-size:11px;color:var(--muted)">${s.name||item.sym}</span>
-          ${triggerTag}${bearTag}
-        </div>
-        ${s.sector ? `<span style="font-size:11px;background:rgba(94,141,245,0.1);color:var(--blue);padding:2px 8px;border-radius:4px;display:inline-block;margin-top:4px">${s.sector}</span>` : ''}
-        ${item.note ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;font-style:italic">💬 ${item.note}</div>` : ''}
-        <div class="wlMeta">
-          ${cmp!=='–'?`<div class="wlChip">CMP: <strong>${cmp}</strong></div>`:''}
-          ${ret3m?`<div class="wlChip">3M: ${ret3m}</div>`:''}
-          ${s.pe?`<div class="wlChip">P/E: ${s.pe.toFixed(1)}</div>`:''}
-          ${s.roce?`<div class="wlChip">ROCE: ${s.roce.toFixed(1)}%</div>`:''}
-          <div class="wlChip" style="color:var(--muted)">${item.addedAt}</div>
-        </div>
-      </div>
-      <div class="wlActions">
-        <a href="https://www.tradingview.com/chart/?symbol=NSE:${item.sym}" target="_blank" class="iconBtn" title="TradingView" style="text-decoration:none">📈</a>
-        <a href="https://www.screener.in/company/${item.sym}/" target="_blank" class="iconBtn" title="Screener" style="text-decoration:none">📊</a>
-        <button class="iconBtn" onclick="openModal('${item.sym}')" title="Details">🔍</button>
-        <button class="iconBtn" onclick="removeFromWL('${wlId}','${item.sym}')" title="Remove" style="color:var(--red)">✕</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function renderAllWatchlists() {
-  // Populate autocomplete datalists
-  const acHtml = stocks.map(s=>`<option value="${s.sym}">${s.sym} — ${s.name}</option>`).join('');
-  ['tomorrow','nextmonth','bear'].forEach(id => {
-    const dl = document.getElementById('wlAC-' + id);
-    if (dl) dl.innerHTML = acHtml;
-  });
-  ['tomorrow','nextmonth','bear'].forEach(id => renderWLList(id));
-  updateWLBadges();
-}
-
-function refreshAllWL() {
-  // Get all symbols from all watchlists
-  const allSyms = new Set();
-  Object.values(watchlists).forEach(list => list.forEach(x => allSyms.add(x.sym)));
-  if (allSyms.size === 0) { toast('No stocks in watchlists to refresh', 'err'); return; }
-
-  const spinner = document.getElementById('refreshSpinner');
-  if (spinner) { spinner.classList.add('spinning'); setTimeout(()=>spinner.classList.remove('spinning'),2500); }
-
-  // Open Screener with watchlist stocks
-  const syms = [...allSyms].slice(0, 50).join(',');
-  const url = `https://www.screener.in/screen/raw/?sort=&source=&query=Company+in+(${encodeURIComponent(syms)})&limit=50`;
-  window.open(url, '_blank');
-  toast(`Opening Screener for ${allSyms.size} stocks. Paste data back in Stock List import.`, 'ok');
-}
-
-function exportWLCSV() {
-  let csv = 'Watchlist,Symbol,Name,CMP,PE,ROCE,3M Return,Qtr Profit%,Trigger,Note,Added
-';
-  Object.entries(watchlists).forEach(([wlId, list]) => {
-    list.forEach(item => {
-      const s = stocks.find(x=>x.sym===item.sym)||{};
-      csv += [getWLLabel(wlId), item.sym, (s.name||'').replace(/,/g,' '), s.cmp||'', s.pe||'', s.roce||'', s.ret3m||'', s.profitVar||'', item.trigger||'', (item.note||'').replace(/,/g,' '), item.addedAt||''].join(',') + '\n';
-    });
-  });
-  const blob = new Blob([csv], {type:'text/csv'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'SwingDesk_Watchlists.csv'; a.click();
-  toast('CSV exported ✓', 'ok');
-}
-
-// ═══════════════════════════════════════════════════
-// FUNDAMENTALS HUB
-// ═══════════════════════════════════════════════════
-function initFundamentals() {
-  const dl = document.getElementById('fundAC');
-  if (dl) dl.innerHTML = stocks.map(s=>`<option value="${s.sym}">${s.sym} — ${s.name}</option>`).join('');
-}
-
-function openFundamentals(sym) {
-  // Navigate to fundamentals tab and load
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.navBtn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-fundamentals').classList.add('active');
-  // Highlight the nav button
-  document.querySelectorAll('.navBtn').forEach(b=>{ if(b.textContent.includes('Fundamentals')) b.classList.add('active'); });
-  closeModal();
-  document.getElementById('fundSearch').value = sym;
-  initFundamentals();
-  showFundamentals();
-}
-
-function showFundamentals() {
-  const sym = document.getElementById('fundSearch').value.toUpperCase().trim();
-  if (!sym) { toast('Enter a symbol', 'err'); return; }
-  const s = stocks.find(x=>x.sym===sym);
-
-  const scLink = document.getElementById('fundScLink');
-  const nseLink = document.getElementById('fundNseLink');
-  if (scLink) { scLink.href = `https://www.screener.in/company/${sym}/`; scLink.style.display='inline-block'; }
-  if (nseLink) { nseLink.href = `https://www.nseindia.com/get-quotes/equity?symbol=${sym}`; nseLink.style.display='inline-block'; }
-
-  if (!s) {
-    document.getElementById('fundContent').innerHTML = `
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;color:var(--muted)">
-        <p>Stock <strong style="color:var(--text)">${sym}</strong> not found. Try importing it via Screener paste first.</p>
-        <a href="https://www.screener.in/company/${sym}/" target="_blank" style="color:var(--blue);font-size:13px">View ${sym} on Screener →</a>
-      </div>`;
-    return;
-  }
-
-  document.getElementById('fundContent').innerHTML = buildFundHTML(s);
-}
-
-function buildFundHTML(s) {
-  // Holdings bar
-  const proV = s.promoterHolding || 0;
-  const fiiV = s.fiiHolding || 0;
-  const diiV = s.diiHolding || 0;
-  const retV = Math.max(0, 100 - proV - fiiV - diiV);
-  const hasHoldings = proV > 0 || fiiV > 0;
-
-  const holdHtml = `<div class="fundSection">
-    <div class="fundSectionTitle">👥 Shareholding Pattern</div>
-    ${hasHoldings ? `
-    <div class="holderBar">
-      <div class="hb-pro" style="width:${proV}%"></div>
-      <div class="hb-fii" style="width:${fiiV}%"></div>
-      <div class="hb-dii" style="width:${diiV}%"></div>
-      <div class="hb-ret" style="width:${retV}%"></div>
-    </div>
-    <div class="holderLegend">
-      <div class="hlItem"><div class="hlDot" style="background:var(--gold)"></div>Promoters <strong>${proV.toFixed(1)}%</strong></div>
-      <div class="hlItem"><div class="hlDot" style="background:var(--blue)"></div>FII <strong>${fiiV.toFixed(1)}%</strong></div>
-      <div class="hlItem"><div class="hlDot" style="background:var(--green)"></div>DII <strong>${diiV.toFixed(1)}%</strong></div>
-      <div class="hlItem"><div class="hlDot" style="background:var(--muted)"></div>Retail/Other <strong>${retV.toFixed(1)}%</strong></div>
-    </div>` : `<p style="color:var(--muted);font-size:13px">Shareholding data not available from Screener import. 
-      <a href="https://www.screener.in/company/${s.sym}/" target="_blank" style="color:var(--blue)">View on Screener</a> for full shareholding history.</p>`}
-  </div>`;
-
-  // Quarterly snapshot
-  const qtrHtml = `<div class="fundSection">
-    <div class="fundSectionTitle">📊 Quarterly Snapshot (from Screener import)</div>
-    <div style="overflow-x:auto"><table class="qtrTbl">
-      <thead><tr>
-        <th style="text-align:left">Metric</th><th>Latest Quarter</th><th>Growth (QoQ)</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>Net Profit</td><td style="text-align:right">${s.npQtr ? '₹'+s.npQtr.toFixed(0)+' Cr' : '–'}</td><td style="text-align:right;color:${(s.profitVar||0)>=0?'var(--green)':'var(--red)'}">${s.profitVar !== null && s.profitVar !== undefined ? (s.profitVar>=0?'+':'')+s.profitVar.toFixed(1)+'%' : '–'}</td></tr>
-        <tr><td>Revenue / Sales</td><td style="text-align:right">${s.salesQtr ? '₹'+s.salesQtr.toFixed(0)+' Cr' : '–'}</td><td style="text-align:right;color:${(s.salesVar||0)>=0?'var(--green)':'var(--red)'}">${s.salesVar !== null && s.salesVar !== undefined ? (s.salesVar>=0?'+':'')+s.salesVar.toFixed(1)+'%' : '–'}</td></tr>
-      </tbody>
-    </table></div>
-    <p style="font-size:12px;color:var(--muted);margin-top:10px">
-      For full 4-quarter history with YoY comparison:
-      <a href="https://www.screener.in/company/${s.sym}/quarterly/" target="_blank" style="color:var(--blue)">Screener Quarterly →</a>
-    </p>
-  </div>`;
-
-  // Key ratios
-  const ratios = [
-    ['CMP ₹', s.cmp ? '₹'+s.cmp.toFixed(2) : '–'],
-    ['P/E Ratio', s.pe ? s.pe.toFixed(1)+'x' : '–'],
-    ['Market Cap', s.marketCap ? (s.marketCap>=1000?(s.marketCap/1000).toFixed(1)+'K Cr':s.marketCap.toFixed(0)+' Cr') : '–'],
-    ['ROCE %', s.roce ? s.roce.toFixed(1)+'%' : '–'],
-    ['3M Return', s.ret3m !== null && s.ret3m !== undefined ? (s.ret3m>=0?'+':'')+s.ret3m.toFixed(2)+'%' : '–'],
-    ['Dividend Yield', s.divYld ? s.divYld.toFixed(2)+'%' : '–'],
-    ['52W High Gap', s.upPct !== null && s.upPct !== undefined ? '+'+s.upPct.toFixed(1)+'% to high' : '–'],
-    ['52W Low Gap', s.downPct !== null && s.downPct !== undefined ? s.downPct.toFixed(1)+'% from low' : '–'],
-  ];
-
-  const ratioHtml = `<div class="fundSection">
-    <div class="fundSectionTitle">📐 Key Ratios & Metrics</div>
-    <div class="fundGrid">${ratios.map(([l,v])=>`<div class="fundItem"><div class="fl">${l}</div><div class="fv">${v}</div></div>`).join('')}</div>
-  </div>`;
-
-  // Earnings Calendar
-  const earningHtml = `<div class="fundSection">
-    <div class="fundSectionTitle">📅 Earnings Calendar & Corporate Actions</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <a href="https://www.nseindia.com/companies-listing/corporate-filings-financial-results?category=equities&symbol=${s.sym}" target="_blank"
-        style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;text-decoration:none;display:block">
-        <div style="font-size:12px;color:var(--muted)">NSE Corporate Filings</div>
-        <div style="font-weight:700;color:var(--red);margin-top:4px">🏛 Board Meetings & Results →</div>
-      </a>
-      <a href="https://www.screener.in/company/${s.sym}/quarterly/" target="_blank"
-        style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;text-decoration:none;display:block">
-        <div style="font-size:12px;color:var(--muted)">Screener</div>
-        <div style="font-weight:700;color:var(--green);margin-top:4px">📊 Quarterly Data History →</div>
-      </a>
-      <a href="https://www.bseindia.com/stock-share-price/${s.name.split(' ')[0].toLowerCase()}/${s.sym}/A/" target="_blank"
-        style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;text-decoration:none;display:block">
-        <div style="font-size:12px;color:var(--muted)">BSE India</div>
-        <div style="font-weight:700;color:var(--blue);margin-top:4px">📋 BSE Corporate Announcements →</div>
-      </a>
-      <a href="https://www.moneycontrol.com/stocks/company_info/stock_news.php?sc_id=${s.sym}" target="_blank"
-        style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;text-decoration:none;display:block">
-        <div style="font-size:12px;color:var(--muted)">MoneyControl</div>
-        <div style="font-weight:700;color:var(--accent);margin-top:4px">📰 Company News →</div>
-      </a>
-    </div>
-  </div>`;
-
-  // Quick links
-  const linksHtml = `<div class="fundSection">
-    <div class="fundSectionTitle">🔗 Quick Links</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <a href="https://www.screener.in/company/${s.sym}/" target="_blank" class="linkBtn sc" style="text-decoration:none">📊 Screener Full Report</a>
-      <a href="https://www.tradingview.com/chart/?symbol=NSE:${s.sym}" target="_blank" class="linkBtn tv" style="text-decoration:none">📈 TradingView Chart</a>
-      <a href="https://kite.zerodha.com/chart/web/tvc/NSE/${s.sym}EQ/${s.sym}" target="_blank" class="linkBtn kite" style="text-decoration:none">⚡ Trade on Kite</a>
-      <a href="https://www.nseindia.com/get-quotes/equity?symbol=${s.sym}" target="_blank" class="linkBtn" style="text-decoration:none;background:rgba(248,113,113,0.1);border-color:var(--red);color:var(--red)">🏛 NSE Equity Page</a>
-    </div>
-  </div>`;
-
-  return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px">
-    <span style="font-size:24px;font-weight:800;color:var(--accent)">${s.sym}</span>
-    <span style="font-size:14px;color:var(--text)">${s.name}</span>
-    <span style="font-size:12px;background:rgba(94,141,245,0.15);color:var(--blue);padding:3px 10px;border-radius:6px">${s.sector}</span>
-    <span style="font-size:12px;background:rgba(62,207,142,0.1);color:var(--green);padding:3px 10px;border-radius:6px">${s.sub}</span>
-    <span style="font-size:12px;color:var(--muted);margin-left:auto">Listed: ${s.listed}</span>
-  </div>
-  ${holdHtml}${qtrHtml}${ratioHtml}${earningHtml}${linksHtml}`;
 }
 
 // ONLINE GUIDE
