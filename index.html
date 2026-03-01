@@ -3454,7 +3454,7 @@ function matchSymbol(name){
   const partial=NIFTY500.find(s=>clean(s.name).startsWith(cn.substring(0,8))||cn.startsWith(clean(s.name).substring(0,8)));
   return partial||null;
 }
-function importScreener(){
+async function importScreener(){
   const raw=document.getElementById('pasteArea').value.trim();
   if(!raw){toast('Nothing pasted','err');return;}
   const lines=raw.split('\n').map(l=>l.trim()).filter(l=>l&&!l.startsWith('S.No'));
@@ -3478,13 +3478,13 @@ function importScreener(){
     screenerData[key]=fields;
     matched++;
   });
-  save();renderStocks();
+  await save();renderStocks();
   document.getElementById('pasteArea').value='';
   toast('✓ Imported '+matched+' stocks','ok');
 }
-function clearScreener(){
+async function clearScreener(){
   if(!confirm('Clear all Screener.in data?'))return;
-  screenerData={};save();renderStocks();toast('Screener data cleared');
+  screenerData={};await save();renderStocks();toast('Screener data cleared');
 }
 
 // ── STOCKS TABLE ──
@@ -3605,15 +3605,15 @@ function refreshWLBtns(){
     btn.textContent=lbl+(on?' ✓':'');
   });
 }
-function saveModal(){if(!curSym)return;notes[curSym]=document.getElementById('m-notes').value;save();toast('Notes saved for '+curSym,'ok');}
-function toggleBlock(){
-  if(!curSym)return;blocked[curSym]=!blocked[curSym];save();renderStocks();
+async function saveModal(){if(!curSym)return;notes[curSym]=document.getElementById('m-notes').value;await save();toast('Notes saved for '+curSym,'ok');}
+async function toggleBlock(){
+  if(!curSym)return;blocked[curSym]=!blocked[curSym];await save();renderStocks();
   const blk=blocked[curSym];
   document.getElementById('m-blkBtn').className=blk?'btn-ublk':'btn-blk';
   document.getElementById('m-blkBtn').textContent=blk?'✅ Unmark Untradable':'🚫 Mark Untradable';
   toast(blk?curSym+' marked untradable':curSym+' unblocked');
 }
-function qBlk(sym){blocked[sym]=!blocked[sym];save();renderStocks();toast(blocked[sym]?sym+' blocked':sym+' unblocked');}
+async function qBlk(sym){blocked[sym]=!blocked[sym];await save();renderStocks();toast(blocked[sym]?sym+' blocked':sym+' unblocked');}
 
 // ── WATCHLISTS ──
 function switchWL(btn,id){
@@ -3627,7 +3627,7 @@ function updateWLCounts(){
     if(el)el.textContent=(watchlists[wl]||[]).length;
   });
 }
-function addWL(wl){
+async function addWL(wl){
   const sEl=document.getElementById('wla-'+wl);const nEl=document.getElementById('wln-'+wl);
   const sym=(sEl.value||'').trim().toUpperCase();
   if(!sym){toast('Enter a symbol','err');return;}
@@ -3636,11 +3636,11 @@ function addWL(wl){
   const s=getStock(sym);const sd=getSd(sym);
   watchlists[wl].push({sym,name:s.name,board:s.board,sector:s.sector,note:nEl?nEl.value.trim():'',
     addedOn:new Date().toISOString().split('T')[0],cmp:sd.cmp||'',ret3m:sd.ret3m||'',roce:sd.roce||''});
-  save();renderAllWL();updateWLCounts();sEl.value='';if(nEl)nEl.value='';
+  await save();renderAllWL();updateWLCounts();sEl.value='';if(nEl)nEl.value='';
   toast(sym+' added to watchlist','ok');
 }
-function removeWL(wl,sym){watchlists[wl]=watchlists[wl].filter(w=>w.sym!==sym);save();renderAllWL();updateWLCounts();renderStocks();toast(sym+' removed');}
-function toggleWLModal(wl){
+async function removeWL(wl,sym){watchlists[wl]=watchlists[wl].filter(w=>w.sym!==sym);await save();renderAllWL();updateWLCounts();renderStocks();toast(sym+' removed');}
+async function toggleWLModal(wl){
   if(!curSym)return;if(!watchlists[wl])watchlists[wl]=[];
   const idx=watchlists[wl].findIndex(w=>w.sym===curSym);
   if(idx>=0){watchlists[wl].splice(idx,1);}
@@ -3649,7 +3649,7 @@ function toggleWLModal(wl){
     watchlists[wl].push({sym:curSym,name:s.name,board:s.board,sector:s.sector,note:'',
       addedOn:new Date().toISOString().split('T')[0],cmp:sd.cmp||'',ret3m:sd.ret3m||'',roce:sd.roce||''});
   }
-  save();renderAllWL();updateWLCounts();refreshWLBtns();renderStocks();
+  await save();renderAllWL();updateWLCounts();refreshWLBtns();renderStocks();
 }
 function renderWLCards(wl){
   const list=watchlists[wl]||[];const cont=document.getElementById('wll-'+wl);
@@ -3867,7 +3867,7 @@ function importCSV(input){
     if(confirm(`Found ${newTrades.length} trades. Replace journal or add?\nOK = Replace | Cancel = Add`)){
       journal=newTrades;
     } else {journal=[...journal,...newTrades];}
-    save();renderJournal();renderStats();toast('✓ Imported '+newTrades.length+' trades','ok');
+    await save();renderJournal();renderStats();toast('✓ Imported '+newTrades.length+' trades','ok');
   };
   reader.readAsText(file);
 }
@@ -3879,11 +3879,11 @@ const CHECKLISTS=[
   {cat:'Process',items:['Checked broader market trend','Checked sector trend','Had a clear thesis before entry','Reviewed chart on higher timeframe']},
 ];
 function updateCapBtn(){document.getElementById('capBtn').textContent='💰 Capital: ₹'+capital.toLocaleString('en-IN');}
-function editCapital(){
+async function editCapital(){
   const v=prompt('Enter your trading capital (₹):',capital);
-  if(v&&!isNaN(parseFloat(v))){capital=parseFloat(v);save();updateCapBtn();renderJournal();renderStats();}
+  if(v&&!isNaN(parseFloat(v))){capital=parseFloat(v);await save();updateCapBtn();renderJournal();renderStats();}
 }
-function addManualTrade(){
+async function addManualTrade(){
   const sym=(document.getElementById('j-sym').value||'').trim().toUpperCase();
   const bp=parseFloat(document.getElementById('j-bp').value);
   const qty=parseFloat(document.getElementById('j-qty').value)||1;
@@ -3904,9 +3904,9 @@ function addManualTrade(){
     pnl,pnlPct:pnl?(pnl/(netBuy*qty)*100):null,
     daysHeld:days,status:sp?'Closed':'Open',source:'manual',checklist:{}
   };
-  journal.unshift(trade);save();renderJournal();renderStats();toast('Trade saved','ok');
+  journal.unshift(trade);await save();renderJournal();renderStats();toast('Trade saved','ok');
 }
-function saveChecklist(tid){
+async function saveChecklist(tid){
   const t=journal.find(x=>x.id===tid);if(!t)return;
   t.checklist={};
   CHECKLISTS.forEach(({cat,items})=>{
@@ -3915,7 +3915,7 @@ function saveChecklist(tid){
       if(el)t.checklist[`${cat}-${i}`]=el.checked;
     });
   });
-  save();toast('Checklist saved','ok');
+  await save();toast('Checklist saved','ok');
 }
 function renderJournal(){
   const el=document.getElementById('jList');
@@ -3954,8 +3954,8 @@ function renderJournal(){
   }).join('');
 }
 function toggleCL(tid){const el=document.getElementById('clb-'+tid);if(el)el.classList.toggle('open');}
-function delTrade(id){journal=journal.filter(t=>t.id!==id);save();renderJournal();renderStats();toast('Trade deleted');}
-function clearJournal(){if(!confirm('Clear all journal entries?'))return;journal=[];save();renderJournal();renderStats();toast('Journal cleared');}
+async function delTrade(id){journal=journal.filter(t=>t.id!==id);await save();renderJournal();renderStats();toast('Trade deleted');}
+async function clearJournal(){if(!confirm('Clear all journal entries?'))return;journal=[];await save();renderJournal();renderStats();toast('Journal cleared');}
 
 // ── ANALYSIS ──
 function renderStats(){
