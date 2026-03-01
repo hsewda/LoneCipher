@@ -9,11 +9,20 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#1a56db">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="manifest" id="manifestLink">
 <link rel="apple-touch-icon" id="appleIcon">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f4f6fa;color:#111827;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px}
+
+/* SYNC INDICATOR */
+.syncDot{width:7px;height:7px;border-radius:50%;background:#d1d5db;display:inline-block;margin-right:3px;vertical-align:middle}
+.syncDot.syncing{background:#f59e0b;animation:sbpulse .7s infinite alternate}
+.syncDot.error{background:#e02424}
+@keyframes sbpulse{from{opacity:.3}to{opacity:1}}
+.syncBadge{font-size:11px;color:#9ca3af;display:flex;align-items:center;gap:2px;white-space:nowrap;margin-right:6px}
+
 /* LOGIN */
 #loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#eef2ff,#e0f2fe)}
 .loginBox{background:#fff;border:1px solid #e5e7eb;border-radius:20px;padding:44px 40px;width:360px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,.1)}
@@ -267,7 +276,7 @@ tr:hover td{background:#f8faff}
     <button class="nb" id="nb-analysis" onclick="showTab('analysis',this)">📊 Analysis</button>
     <div class="spacer"></div>
     <a class="tvPin" href="https://www.tradingview.com/chart/lTGUsTMU/" target="_blank">📊 Sector Chart →</a>
-    <button class="logoutB" onclick="logout()">Logout</button>
+    <span class="syncBadge"><span class="syncDot" id="syncDot"></span><span id="syncTxt"></span></span><button class="logoutB" onclick="logout()">Logout</button>
   </div>
 
   <!-- ══ STOCKS ══ -->
@@ -3280,16 +3289,59 @@ let screenerData={}, journal=[], notes={}, blocked={}, capital=100000;
 let watchlists={tm:[],mo:[],be:[],mi:[]};
 let sortCol='sector', sortAsc=true, curSym=null;
 
+// ── SUPABASE SYNC ──
+// ↓↓ FILL THESE IN after Supabase setup ↓↓
+const SB_URL = 'https://cdzuatpanciotlmzrhum.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkenVhdHBhbmNpb3RsbXpyaHVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMjkwNzIsImV4cCI6MjA4NzkwNTA3Mn0.mdgplUU8lUKR4g7EImhyRUrCpFjC9qGoNAgI3PmUUSA';
+const SB_ROW  = 'lonecipher_main'; // fixed row key — one user, all devices
+// ↑↑ ————————————————————————————————— ↑↑
+
+let _sbClient = null;
+function getSB(){
+  if(_sbClient) return _sbClient;
+  if(typeof supabase !== 'undefined' && SB_URL !== 'YOUR_SUPABASE_URL'){
+    _sbClient = supabase.createClient(SB_URL, SB_KEY);
+  }
+  return _sbClient;
+}
+function syncDot(state){ // 'ok' | 'busy' | 'err' | ''
+  const d=document.getElementById('syncDot');
+  const t=document.getElementById('syncTxt');
+  if(!d)return;
+  d.className='syncDot'+(state==='busy'?' syncing':state==='err'?' error':'');
+  if(t) t.textContent=state==='ok'?'✓ synced':state==='busy'?'syncing…':state==='err'?'offline':'';
+}
+
 // ── PERSIST ──
-function save(){
+async function save(){
+  // 1. Save locally first (instant)
   localStorage.setItem('lc4_screener',JSON.stringify(screenerData));
   localStorage.setItem('lc4_journal',JSON.stringify(journal));
   localStorage.setItem('lc4_notes',JSON.stringify(notes));
   localStorage.setItem('lc4_blocked',JSON.stringify(blocked));
   localStorage.setItem('lc4_wl',JSON.stringify(watchlists));
   localStorage.setItem('lc4_capital',capital);
+  // 2. Push to Supabase
+  const sb=getSB(); if(!sb){syncDot('err');return;}
+  syncDot('busy');
+  try{
+    const {error}=await sb.from('lcdata').upsert({
+      id:SB_ROW,
+      screener:screenerData,
+      journal:journal,
+      notes:notes,
+      blocked:blocked,
+      watchlists:watchlists,
+      capital:capital,
+      ts:new Date().toISOString()
+    },{onConflict:'id'});
+    syncDot(error?'err':'ok');
+    if(error) console.error('SB save:',error);
+  }catch(e){syncDot('err');console.error('SB save exception:',e);}
 }
-function load(){
+
+async function load(){
+  // 1. Load from localStorage immediately
   screenerData=JSON.parse(localStorage.getItem('lc4_screener')||'{}');
   journal=JSON.parse(localStorage.getItem('lc4_journal')||'[]');
   notes=JSON.parse(localStorage.getItem('lc4_notes')||'{}');
@@ -3297,6 +3349,30 @@ function load(){
   watchlists=JSON.parse(localStorage.getItem('lc4_wl')||'{"tm":[],"mo":[],"be":[],"mi":[]}');
   capital=parseFloat(localStorage.getItem('lc4_capital')||100000);
   if(!watchlists.mi)watchlists.mi=[];
+  // 2. Pull from Supabase (cloud wins)
+  const sb=getSB(); if(!sb){syncDot('err');return;}
+  syncDot('busy');
+  try{
+    const {data,error}=await sb.from('lcdata').select('*').eq('id',SB_ROW).single();
+    if(error&&error.code!=='PGRST116'){syncDot('err');console.error('SB load:',error);return;}
+    if(data){
+      screenerData=data.screener||{};
+      journal=data.journal||[];
+      notes=data.notes||{};
+      blocked=data.blocked||{};
+      watchlists=data.watchlists||{tm:[],mo:[],be:[],mi:[]};
+      capital=data.capital||100000;
+      if(!watchlists.mi)watchlists.mi=[];
+      // Cache locally
+      localStorage.setItem('lc4_screener',JSON.stringify(screenerData));
+      localStorage.setItem('lc4_journal',JSON.stringify(journal));
+      localStorage.setItem('lc4_notes',JSON.stringify(notes));
+      localStorage.setItem('lc4_blocked',JSON.stringify(blocked));
+      localStorage.setItem('lc4_wl',JSON.stringify(watchlists));
+      localStorage.setItem('lc4_capital',capital);
+    }
+    syncDot('ok');
+  }catch(e){syncDot('err');console.error('SB load exception:',e);}
 }
 
 // ── LOGIN ──
@@ -3304,15 +3380,25 @@ function login(){
   if(document.getElementById('pwdIn').value===PWD){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('app').style.display='flex';
-    try{load();}catch(e){}
-    try{renderStocks();}catch(e){console.error(e);}
-    try{renderAllWL();}catch(e){}
-    try{updateWLCounts();}catch(e){}
-    try{renderJournal();}catch(e){}
-    try{renderStats();}catch(e){}
-    try{updateCapBtn();}catch(e){}
+    document.getElementById('loginErr').textContent='';
+    // Load local instantly, then cloud syncs in background
+    load().then(()=>{
+      try{renderStocks();}catch(e){console.error(e);}
+      try{renderAllWL();}catch(e){}
+      try{updateWLCounts();}catch(e){}
+      try{renderJournal();}catch(e){}
+      try{renderStats();}catch(e){}
+      try{updateCapBtn();}catch(e){}
+    }).catch(err=>{
+      console.error('load error',err);
+      try{renderStocks();}catch(e){}
+      try{renderAllWL();}catch(e){}
+      try{renderJournal();}catch(e){}
+      try{renderStats();}catch(e){}
+      try{updateCapBtn();}catch(e){}
+    });
   } else {
-    document.getElementById('loginErr').textContent='Wrong password. Try: trade2024';
+    document.getElementById('loginErr').textContent='Wrong password.';
   }
 }
 function logout(){
